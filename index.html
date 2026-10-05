@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bomberos Forestales Tarija | Monitoreo de Incendios</title>
+    <!-- Estilos CSS integrados -->
+    <style>
+        :root {
+            --primary: #d97706; /* Color fuego / naranja */
+            --primary-hover: #b45309;
+            --bg-dark: #111827; /* Fondo oscuro técnico */
+            --card-bg: #1f2937;
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Navegación */
+        header {
+            background-color: var(--card-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Seccion Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem 2rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Contenedor del Mapa */
+        .map-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .map-header {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 600px;
+            background-color: #000;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .map-placeholder {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--text-muted);
+            font-style: italic;
+            border: 2px dashed #374151;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Tarjetas de Datos */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 3px solid var(--primary);
+        }
+
+        .card h3 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid #374151;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <header>
+        <div class="logo">
+            <span>🔥</span> Bomberos Forestales Tarija
+        </div>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#mapa">Geoportal 2026</a>
+            <a href="#estadisticas">Datos</a>
+        </nav>
+    </header>
+
+    <!-- Banner Principal -->
+    <section class="hero" id="inicio">
+        <h1>Monitoreo de Cicatrices de Incendios Forestales</h1>
+        <p>Plataforma técnica de cartografía satelital para el análisis de severidad y seguimiento de áreas quemadas en el departamento de Tarija.</p>
+    </section>
+
+    <!-- Visor de Mapa -->
+    <section class="map-section" id="mapa">
+        <div class="map-header">
+            <h2>Visor Interactivo — Temporada 2026</h2>
+        </div>
+        <div class="map-container">
+            <!-- Aquí incrustaremos el mapa exportado de QGIS2Web -->
+            <!-- Ejemplo futuro: <iframe src="mapa_qgis/index.html"></iframe> -->
+            <div class="map-placeholder">
+                <p>📍 [Espacio reservado para el mapa de QGIS2Web]</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tarjetas Estadísticas -->
+    <section class="stats" id="estadisticas">
+        <div class="card">
+            <h3>2026</h3>
+            <p>Temporada Evaluada</p>
+        </div>
+        <div class="card">
+            <h3>Sentinel-2</h3>
+            <p>Sensor Satelital Base</p>
+        </div>
+        <div class="card">
+            <h3>dNDVI / NBR</h3>
+            <p>Índices de Severidad</p>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer>
+        <p>&copy; 2026 Bomberos Forestales Tarija — Geoinformación y Respuesta Territorial</p>
+    </footer>
+
+</body>
+</html>
