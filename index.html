@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma Geoespacial & Monitoreo de Incendios - Tarija</title>
+    <title>GeoTarija | Monitoreo Territorial</title>
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Encabezado / Navbar -->
+    <!-- Barra de Navegación Superior -->
     <header class="navbar">
         <div class="logo">
             <i class="fa-solid fa-earth-americas"></i>
@@ -33,39 +32,36 @@
 
             <div class="control-group">
                 <h4><i class="fa-solid fa-fire"></i> Capas de Incendios</h4>
-                <button class="btn-layer active" onclick="cargarCapa('cicatrices')">
+                <button class="btn-layer active" data-layer="dndvi">
                     <i class="fa-solid fa-draw-polygon"></i> Cicatrices dNDVI (Tarija)
                 </button>
-                <button class="btn-layer" onclick="cargarCapa('firms')">
+                <button class="btn-layer" data-layer="firms">
                     <i class="fa-solid fa-satellite"></i> Focos de Calor (NASA FIRMS)
                 </button>
-                <button class="btn-layer" onclick="cargarCapa('copernicus')">
+                <button class="btn-layer" data-layer="copernicus">
                     <i class="fa-solid fa-globe"></i> Vista Copernicus Sentinel
                 </button>
             </div>
 
-            <hr>
-
-            <!-- Sección de Descargas Rápidas SHP -->
-            <div class="download-section">
+            <div class="control-group" id="descargas">
                 <h4><i class="fa-solid fa-layer-group"></i> Descargar Datos (GIS)</h4>
                 <ul class="download-list">
                     <li>
                         <span>Cicatrices 2026 (.zip SHP)</span>
-                        <a href="data/cicatrices_2026.zip" download class="btn-download"><i class="fa-solid fa-download"></i></a>
+                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i></a>
                     </li>
                     <li>
                         <span>Puntos de Recarga Agua (.geojson)</span>
-                        <a href="data/recarga_agua.geojson" download class="btn-download"><i class="fa-solid fa-download"></i></a>
+                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i></a>
                     </li>
                 </ul>
             </div>
         </aside>
 
         <!-- Área Principal del Visor / Mapa -->
-<main class="map-container" id="visor" style="height: 100%; min-height: 500px;">
-    <iframe id="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=-65.10%2C-21.80%2C-64.30%2C-21.20&amp;layer=mapnik" width="100%" height="100%" style="border:0;" allowfullscreen=""></iframe>
-</main>
+        <main class="map-container" id="visor">
+            <iframe id="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=-65.10%2C-21.80%2C-64.30%2C-21.20&amp;layer=mapnik" width="100%" height="100%" style="border:0;" allowfullscreen=""></iframe>
+        </main>
 
     </div>
 
@@ -77,12 +73,13 @@
                 <i class="fa-solid fa-file-pdf pdf-icon"></i>
                 <h3>Evaluación Post-Incendio Tarija</h3>
                 <p>Análisis de severidad, área quemada e impacto hidrológico en cuencas.</p>
-                <a href="docs/informe_incendios.pdf" target="_blank" class="btn-pdf">Ver PDF</a>
+                <a href="#" class="btn-pdf">Ver PDF</a>
             </div>
-            <!-- Puedes duplicar más tarjetas de informes aquí -->
         </div>
     </section>
 
+    <!-- Script de Interactividad -->
     <script src="js/main.js"></script>
+
 </body>
 </html>
