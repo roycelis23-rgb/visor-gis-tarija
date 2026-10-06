@@ -41,61 +41,59 @@ body {
 }
 
 .sidebar {
-    width: 300px;
+    width: 320px;
     background-color: #f8fafc;
     border-right: 1px solid #e2e8f0;
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.2rem;
     overflow-y: auto;
 }
 
 .section-block h4 {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #475569;
     margin-bottom: 0.5rem;
+    text-transform: uppercase;
 }
 
-.btn-tool {
+.btn-layer, .btn-download, .btn-tool {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 8px;
-    border: none;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border: 1px solid #cbd5e1;
     border-radius: 6px;
-    background-color: #0284c7;
-    color: white;
+    background-color: white;
+    color: #1e293b;
     font-weight: 600;
     cursor: pointer;
     text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
 }
 
-.btn-tool:hover { background-color: #0369a1; }
-.btn-success { background-color: #16a34a; }
-.btn-success:hover { background-color: #15803d; }
-.btn-danger { background-color: #dc2626; }
-.btn-danger:hover { background-color: #b91c1c; }
-.btn-primary { background-color: #4f46e5; }
+.btn-layer:hover, .btn-download:hover { background-color: #e2e8f0; }
+.btn-layer.active { background-color: #0284c7; color: white; border-color: #0284c7; }
 
-.btn-tool:disabled {
-    background-color: #94a3b8;
-    cursor: not-allowed;
-}
+.btn-tool { background-color: #0284c7; color: white; border: none; }
+.btn-success { background-color: #16a34a; color: white; border: none; }
+.btn-danger { background-color: #dc2626; color: white; border: none; }
+.btn-primary { background-color: #4f46e5; color: white; border: none; }
+
+.btn-tool:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
 .map-container {
     flex: 1;
     position: relative;
+    background-color: #e2e8f0;
 }
 
-#map {
+#map-frame {
     width: 100%;
     height: 100%;
-}
-
-.info-box {
-    background-color: #f1f5f9;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    color: #334155;
+    border: none;
 }
