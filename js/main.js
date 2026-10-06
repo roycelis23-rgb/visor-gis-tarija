@@ -2,7 +2,7 @@
 const mapFrame = document.getElementById('map-frame');
 const layerButtons = document.querySelectorAll('.btn-layer');
 
-// URLs directas de todos los visores centrados en Tarija
+// URLs directas de los visores centrados en Tarija
 const mapUrls = {
     'dndvi': 'https://www.openstreetmap.org/export/embed.html?bbox=-65.50%2C-22.10%2C-63.50%2C-21.00&amp;layer=mapnik',
     'windy-viento': 'https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=9&overlay=wind&product=ecmwf&level=surface&lat=-21.53&lon=-64.73',
@@ -10,19 +10,19 @@ const mapUrls = {
     'copernicus': 'https://browser.dataspace.copernicus.eu/?zoom=10&lat=-21.53&lng=-64.73'
 };
 
-// Asignar el evento clic a cada botón
+// Conmutación de mapas
 layerButtons.forEach(button => {
     button.addEventListener('click', () => {
         const layerType = button.getAttribute('data-layer');
         
-        // Si el botón tiene una URL asignada en nuestro objeto mapUrls
         if (mapUrls[layerType] && mapFrame) {
-            // Cambiar clase activa a los botones
+            // Cambiar la clase activa visualmente
             layerButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             
-            // Cambiar la vista del iframe central sin salir de la página
+            // Actualizar el mapa en el contenedor central
             mapFrame.src = mapUrls[layerType];
         }
     });
 });
+
