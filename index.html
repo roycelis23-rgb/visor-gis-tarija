@@ -16,8 +16,8 @@
             <span>GeoTarija | Monitoreo Territorial</span>
         </div>
         <nav class="nav-links">
-            <a href="#visor"><i class="fa-solid fa-map"></i> Visor Mapa</a>
-            <a href="#descargas"><i class="fa-solid fa-download"></i> Capas & SHP</a>
+            <a href="#visor"><i class="fa-solid fa-map"></i> Visor Tarija</a>
+            <a href="#descargas"><i class="fa-solid fa-file-image"></i> Mapas e Imágenes</a>
             <a href="#informes"><i class="fa-solid fa-file-pdf"></i> Informes PDF</a>
         </nav>
     </header>
@@ -28,39 +28,50 @@
         <!-- Panel Lateral / Sidebar -->
         <aside class="sidebar">
             <h3><i class="fa-solid fa-sliders"></i> Panel de Control</h3>
-            <p class="sidebar-desc">Selecciona la capa o servicio de monitoreo a visualizar:</p>
+            <p class="sidebar-desc">Servicios de monitoreo territorial de Tarija:</p>
 
             <div class="control-group">
-                <h4><i class="fa-solid fa-fire"></i> Capas de Incendios</h4>
+                <h4><i class="fa-solid fa-fire"></i> Capas y Monitoreo Satelital</h4>
                 <button class="btn-layer active" data-layer="dndvi">
-                    <i class="fa-solid fa-draw-polygon"></i> Cicatrices dNDVI (Tarija)
+                    <i class="fa-solid fa-draw-polygon"></i> Mapa Departamental (Tarija)
                 </button>
                 <button class="btn-layer" data-layer="firms">
-                    <i class="fa-solid fa-satellite"></i> Focos de Calor (NASA FIRMS)
+                    <i class="fa-solid fa-satellite"></i> Focos de Calor (FIRMS) <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </button>
                 <button class="btn-layer" data-layer="copernicus">
-                    <i class="fa-solid fa-globe"></i> Vista Copernicus Sentinel
+                    <i class="fa-solid fa-globe"></i> Vista Copernicus Sentinel <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </button>
             </div>
 
+            <!-- Sección de Descarga de Mapas en JPG/PDF -->
             <div class="control-group" id="descargas">
-                <h4><i class="fa-solid fa-layer-group"></i> Descargar Datos (GIS)</h4>
+                <h4><i class="fa-solid fa-file-image"></i> Descargar Mapas (JPG / PDF)</h4>
                 <ul class="download-list">
                     <li>
-                        <span>Cicatrices 2026 (.zip SHP)</span>
-                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i></a>
+                        <span>Mapa de Cicatrices dNDVI (.jpg)</span>
+                        <a href="docs/mapa_cicatrices_tarija.jpg" download class="btn-download"><i class="fa-solid fa-download"></i></a>
                     </li>
                     <li>
-                        <span>Puntos de Recarga Agua (.geojson)</span>
-                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i></a>
+                        <span>Mapa Base Departamental (.pdf)</span>
+                        <a href="docs/mapa_departamental_tarija.pdf" download class="btn-download"><i class="fa-solid fa-file-pdf"></i></a>
                     </li>
                 </ul>
+            </div>
+
+            <!-- Sección de Subida de Información (GeoJSON/Puntos) -->
+            <div class="control-group" id="subida">
+                <h4><i class="fa-solid fa-cloud-arrow-up"></i> Registrar / Subir Datos</h4>
+                <p class="sidebar-desc">Envía puntos de agua o alertas en campo:</p>
+                <label for="file-upload" class="btn-layer" style="text-align: center; cursor: pointer; display: block; margin-top: 5px;">
+                    <i class="fa-solid fa-upload"></i> Subir GeoJSON / Punto
+                </label>
+                <input id="file-upload" type="file" accept=".geojson,.json,.kml" style="display: none;" onchange="alert('Archivo recibido para revisión técnica.')">
             </div>
         </aside>
 
         <!-- Área Principal del Visor / Mapa -->
         <main class="map-container" id="visor">
-            <iframe id="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=-65.10%2C-21.80%2C-64.30%2C-21.20&amp;layer=mapnik" width="100%" height="100%" style="border:0;" allowfullscreen=""></iframe>
+            <iframe id="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=-65.50%2C-22.10%2C-63.50%2C-21.00&amp;layer=mapnik" width="100%" height="100%" style="border:0;" allowfullscreen=""></iframe>
         </main>
 
     </div>
@@ -73,7 +84,7 @@
                 <i class="fa-solid fa-file-pdf pdf-icon"></i>
                 <h3>Evaluación Post-Incendio Tarija</h3>
                 <p>Análisis de severidad, área quemada e impacto hidrológico en cuencas.</p>
-                <a href="#" class="btn-pdf">Ver PDF</a>
+                <a href="docs/informe_incendios_tarija.pdf" target="_blank" class="btn-pdf">Abrir Documento PDF</a>
             </div>
         </div>
     </section>
