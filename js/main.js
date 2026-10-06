@@ -1,146 +1,122 @@
-// 1. Inicializar el Mapa centrado en Tarija (-21.53, -64.73)
-const map = L.map('map').setView([-21.53, -64.73], 10);
+// Selección de elementos
+const mapFrame = document.getElementById('map-frame');
+const leafletContainer = document.getElementById('leaflet-map');
+const layerButtons = document.querySelectorAll('.btn-layer');
+const panelGps = document.getElementById('panel-gps');
 
-// Capas Base
-const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap'
-}).addTo(map);
-
-const esriSatLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles © Esri'
-});
-
-// Control de Capas Base
-const baseMaps = {
-    "Mapa Callejero (OSM)": osmLayer,
-    "Imagen Satelital (Esri)": esriSatLayer
+// URLs de visores
+const mapUrls = {
+    'dndvi': 'https://www.openstreetmap.org/export/embed.html?bbox=-65.50%2C-22.10%2C-63.50%2C-21.00&amp;layer=mapnik',
+    'windy-viento': 'https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=9&overlay=wind&product=ecmwf&level=surface&lat=-21.53&lon=-64.73',
+    'windy-fuego': 'https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=9&overlay=temp&product=ecmwf&level=surface&lat=-21.53&lon=-64.73',
+    'copernicus': 'https://browser.dataspace.copernicus.eu/?zoom=10&lat=-21.53&lng=-64.73'
 };
-L.control.layers(baseMaps).addTo(map);
 
-// 2. Capa para Dibujos y Digitalización
-const drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
-
-// Control de Dibujo (Puntos, Líneas, Polígonos)
-const drawControl = new L.Control.Draw({
-    edit: {
-        featureGroup: drawnItems,
-        remove: true
-    },
-    draw: {
-        polygon: {
-            allowIntersection: false,
-            showArea: true
-        },
-        polyline: true,
-        marker: true,
-        circle: false,
-        circlemarker: false,
-        rectangle: true
-    }
-});
-map.addControl(drawControl);
-
-// Evento al terminar de dibujar una figura
-map.on(L.Draw.Event.CREATED, function (event) {
-    const layer = event.layer;
-    drawnItems.addLayer(layer);
-
-    // Si es un polígono, calcular área en hectáreas
-    if (layer instanceof L.Polygon) {
-        const latlngs = layer.getLatLngs()[0];
-        let areaM2 = 0;
+// Conmutación de mapas
+layerButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const layerType = button.getAttribute('data-layer');
         
-        // Cálculo aproximado de área
-        if (L.GeometryUtil) {
-            areaM2 = L.GeometryUtil.geodesicArea(latlngs);
+        layerButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        if (layerType === 'leaflet-draw') {
+            // Mostrar visor Leaflet interactivo para dibujar/GPS
+            mapFrame.style.display = 'none';
+            leafletContainer.style.display = 'block';
+            panelGps.style.display = 'block';
+            initLeafletMap();
+        } else {
+            // Mostrar visores incrustados (Windy/OSM/Copernicus)
+            leafletContainer.style.display = 'none';
+            panelGps.style.display = 'none';
+            mapFrame.style.display = 'block';
+            if (mapUrls[layerType]) {
+                mapFrame.src = mapUrls[layerType];
+            }
         }
-        
-        const areaHa = (areaM2 / 10000).toFixed(2);
-        layer.bindPopup(`<b>Superficie Estimada:</b> ${areaHa} ha`).openPopup();
-    }
+    });
 });
 
-// 3. Geolocalización y Rastreo (Track GPS)
-let watchId = null;
-let trackCoords = [];
-let trackPolyline = L.polyline([], { color: 'red', weight: 4 }).addTo(map);
-let userMarker = null;
+// Inicialización de Leaflet (solo al presionar el botón)
+let lMap = null;
+let drawnItems = null;
 
-// Ubicación actual puntual
-document.getElementById('btn-location').addEventListener('click', () => {
-    map.locate({ setView: true, maxZoom: 15 });
-});
-
-map.on('locationfound', (e) => {
-    if (userMarker) map.removeLayer(userMarker);
-    userMarker = L.marker(e.latlng).addTo(map)
-        .bindPopup("Estás aquí").openPopup();
-});
-
-map.on('locationerror', () => {
-    alert("No se pudo acceder al GPS del dispositivo.");
-});
-
-// Iniciar Rastreo de Track GPS
-document.getElementById('btn-track-start').addEventListener('click', () => {
-    if (!navigator.geolocation) {
-        alert("Tu navegador no soporta geolocalización.");
+function initLeafletMap() {
+    if (lMap !== null) {
+        lMap.invalidateSize();
         return;
     }
 
+    lMap = L.map('leaflet-map').setView([-21.53, -64.73], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(lMap);
+
+    drawnItems = new L.FeatureGroup();
+    lMap.addLayer(drawnItems);
+
+    const drawControl = new L.Control.Draw({
+        edit: { featureGroup: drawnItems },
+        draw: { polygon: true, polyline: true, marker: true, circle: false, rectangle: true }
+    });
+    lMap.addControl(drawControl);
+
+    lMap.on(L.Draw.Event.CREATED, function (event) {
+        const layer = event.layer;
+        drawnItems.addLayer(layer);
+        if (layer instanceof L.Polygon) {
+            const latlngs = layer.getLatLngs()[0];
+            let areaM2 = L.GeometryUtil ? L.GeometryUtil.geodesicArea(latlngs) : 0;
+            const areaHa = (areaM2 / 10000).toFixed(2);
+            layer.bindPopup(`<b>Superficie:</b> ${areaHa} ha`).openPopup();
+        }
+    });
+}
+
+// Track GPS y Geolocalización
+let watchId = null;
+let trackCoords = [];
+let trackPolyline = null;
+
+document.getElementById('btn-location').addEventListener('click', () => {
+    if (lMap) lMap.locate({ setView: true, maxZoom: 15 });
+});
+
+document.getElementById('btn-track-start').addEventListener('click', () => {
+    if (!navigator.geolocation) return alert("GPS no disponible.");
     trackCoords = [];
-    trackPolyline.setLatLngs([]);
+    if (trackPolyline && lMap) lMap.removeLayer(trackPolyline);
+    trackPolyline = L.polyline([], { color: 'red', weight: 4 }).addTo(lMap);
+    
     document.getElementById('btn-track-start').disabled = true;
     document.getElementById('btn-track-stop').disabled = false;
 
-    watchId = navigator.geolocation.watchPosition(
-        (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            const newPoint = [lat, lng];
-
-            trackCoords.push(newPoint);
-            trackPolyline.setLatLngs(trackCoords);
-            map.panTo(newPoint);
-        },
-        (error) => console.error("Error en GPS:", error),
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
+    watchId = navigator.geolocation.watchPosition((pos) => {
+        const point = [pos.coords.latitude, pos.coords.longitude];
+        trackCoords.push(point);
+        trackPolyline.setLatLngs(trackCoords);
+        lMap.panTo(point);
+    }, (err) => console.error(err), { enableHighAccuracy: true });
 });
 
-// Detener Rastreo de Track GPS
 document.getElementById('btn-track-stop').addEventListener('click', () => {
-    if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-        watchId = null;
-    }
-
+    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
     document.getElementById('btn-track-start').disabled = false;
     document.getElementById('btn-track-stop').disabled = true;
-
-    if (trackCoords.length > 0) {
-        // Convertir la línea grabada a elemento guardable
-        const lineLayer = L.polyline(trackCoords, { color: 'red' });
-        drawnItems.addLayer(lineLayer);
-        alert("Track GPS guardado en la lista de elementos.");
-    }
+    if (drawnItems && trackPolyline) drawnItems.addLayer(trackPolyline);
+    alert("Track GPS guardado.");
 });
 
-// 4. Exportar Todo a GeoJSON
 document.getElementById('btn-export').addEventListener('click', () => {
+    if (!drawnItems) return;
     const data = drawnItems.toGeoJSON();
-    if (data.features.length === 0) {
-        alert("No hay ningún punto, polígono o track registrado para exportar.");
-        return;
-    }
-
+    if (data.features.length === 0) return alert("No hay datos cargados.");
     const jsonString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute("href", jsonString);
-    downloadAnchor.setAttribute("download", `monitoreo_tarija_${Date.now()}.geojson`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
+    const a = document.createElement('a');
+    a.href = jsonString;
+    a.download = `monitoreo_tarija_${Date.now()}.geojson`;
+    a.click();
 });
