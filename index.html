@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoTarija - Visor GIS y Monitoreo de Incendios</title>
+    <title>GeoTarija - Visor GIS y Monitoreo Territorial</title>
     
-    <!-- Hojas de estilo de Leaflet y Leaflet Draw -->
+    <!-- Librerías de iconos y mapas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -19,41 +19,66 @@
             <span>GeoTarija - Monitoreo Territorial</span>
         </div>
         <nav>
-            <a href="#mapa" class="active">Visor GIS</a>
-            <a href="docs/informe_incendios_tarija.pdf" target="_blank">Informes PDF</a>
+            <a href="#visor" class="active">Visor Tarija</a>
+            <a href="#descargas">Mapas e Imágenes</a>
+            <a href="#informes">Informes PDF</a>
         </nav>
     </header>
 
     <div class="main-container">
         <!-- Panel Lateral de Controles -->
         <aside class="sidebar">
-            <h3><i class="fa-solid fa-layer-group"></i> Herramientas de Campo</h3>
+            <h3><i class="fa-solid fa-layer-group"></i> Capas de Monitoreo</h3>
             
             <div class="section-block">
+                <h4><i class="fa-solid fa-map"></i> Seleccionar Visor</h4>
+                <button class="btn-layer active" data-layer="dndvi">
+                    <i class="fa-solid fa-map-location-dot"></i> Mapa Departamental (Tarija)
+                </button>
+                <button class="btn-layer" data-layer="windy-viento">
+                    <i class="fa-solid fa-wind"></i> Vientos en Tiempo Real (Windy)
+                </button>
+                <button class="btn-layer" data-layer="windy-fuego">
+                    <i class="fa-solid fa-temperature-high"></i> Temperatura en Tiempo Real (Windy)
+                </button>
+                <button class="btn-layer" data-layer="copernicus">
+                    <i class="fa-solid fa-satellite"></i> Satélite Copernicus Sentinel
+                </button>
+                <button class="btn-layer" data-layer="leaflet-draw">
+                    <i class="fa-solid fa-pen-ruler"></i> Herramienta Digitalización / GPS
+                </button>
+            </div>
+
+            <div class="section-block" id="panel-gps" style="display: none;">
                 <h4><i class="fa-solid fa-location-arrow"></i> Navegación y Track GPS</h4>
                 <button id="btn-location" class="btn-tool"><i class="fa-solid fa-crosshairs"></i> Mi Ubicación Actual</button>
                 <button id="btn-track-start" class="btn-tool btn-success"><i class="fa-solid fa-play"></i> Iniciar Track GPS</button>
                 <button id="btn-track-stop" class="btn-tool btn-danger" disabled><i class="fa-solid fa-stop"></i> Detener Track</button>
-            </div>
-
-            <div class="section-block">
-                <h4><i class="fa-solid fa-file-export"></i> Guardar y Exportar</h4>
                 <button id="btn-export" class="btn-tool btn-primary"><i class="fa-solid fa-download"></i> Descargar Datos (GeoJSON)</button>
             </div>
 
-            <div class="section-block info-box">
-                <h4><i class="fa-solid fa-circle-info"></i> Ayuda rápida</h4>
-                <p>Usa la barra de herramientas a la izquierda del mapa para digitalizar puntos o polígonos del incendio. El cálculo de hectáreas se generará automáticamente.</p>
+            <div class="section-block">
+                <h4><i class="fa-solid fa-download"></i> Descarga de Mapas</h4>
+                <a href="docs/mapa_departamental_tarija.pdf" target="_blank" class="btn-download">
+                    <i class="fa-solid fa-file-pdf"></i> Mapa Departamental (PDF)
+                </a>
+                <a href="docs/mapa_cicatrices_tarija.jpg" target="_blank" class="btn-download">
+                    <i class="fa-solid fa-file-image"></i> Cicatrices de Incendios (JPG)
+                </a>
             </div>
         </aside>
 
-        <!-- Contenedor del Mapa Interactivo -->
+        <!-- Contenedor Principal de Visores -->
         <main class="map-container">
-            <div id="map"></div>
+            <!-- Frame para Windy, OSM y Copernicus -->
+            <iframe id="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=-65.50%2C-22.10%2C-63.50%2C-21.00&amp;layer=mapnik"></iframe>
+            
+            <!-- Contenedor interactivo para Leaflet/GPS -->
+            <div id="leaflet-map" style="display: none; width: 100%; height: 100%;"></div>
         </main>
     </div>
 
-    <!-- Scripts JS necesarios -->
+    <!-- Scripts JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
     <script src="js/main.js"></script>
