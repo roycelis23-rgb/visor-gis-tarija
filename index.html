@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTarija - Visor GIS y Monitoreo Territorial</title>
-    
-    <!-- Librerías de iconos y mapas -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -20,13 +16,12 @@
         </div>
         <nav>
             <a href="#visor" class="active">Visor Tarija</a>
-            <a href="#descargas">Mapas e Imágenes</a>
-            <a href="#informes">Informes PDF</a>
+            <a href="docs/informe_incendios_tarija.pdf" target="_blank">Informes PDF</a>
         </nav>
     </header>
 
     <div class="main-container">
-        <!-- Panel Lateral de Controles -->
+        <!-- Panel Lateral -->
         <aside class="sidebar">
             <h3><i class="fa-solid fa-layer-group"></i> Capas de Monitoreo</h3>
             
@@ -44,17 +39,6 @@
                 <button class="btn-layer" data-layer="copernicus">
                     <i class="fa-solid fa-satellite"></i> Satélite Copernicus Sentinel
                 </button>
-                <button class="btn-layer" data-layer="leaflet-draw">
-                    <i class="fa-solid fa-pen-ruler"></i> Herramienta Digitalización / GPS
-                </button>
-            </div>
-
-            <div class="section-block" id="panel-gps" style="display: none;">
-                <h4><i class="fa-solid fa-location-arrow"></i> Navegación y Track GPS</h4>
-                <button id="btn-location" class="btn-tool"><i class="fa-solid fa-crosshairs"></i> Mi Ubicación Actual</button>
-                <button id="btn-track-start" class="btn-tool btn-success"><i class="fa-solid fa-play"></i> Iniciar Track GPS</button>
-                <button id="btn-track-stop" class="btn-tool btn-danger" disabled><i class="fa-solid fa-stop"></i> Detener Track</button>
-                <button id="btn-export" class="btn-tool btn-primary"><i class="fa-solid fa-download"></i> Descargar Datos (GeoJSON)</button>
             </div>
 
             <div class="section-block">
@@ -68,19 +52,12 @@
             </div>
         </aside>
 
-        <!-- Contenedor Principal de Visores -->
+        <!-- Contenedor del Visor -->
         <main class="map-container">
-            <!-- Frame para Windy, OSM y Copernicus -->
             <iframe id="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=-65.50%2C-22.10%2C-63.50%2C-21.00&amp;layer=mapnik"></iframe>
-            
-            <!-- Contenedor interactivo para Leaflet/GPS -->
-            <div id="leaflet-map" style="display: none; width: 100%; height: 100%;"></div>
         </main>
     </div>
 
-    <!-- Scripts JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
