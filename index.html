@@ -3,216 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bomberos Forestales Tarija | Monitoreo de Incendios</title>
-    <!-- Estilos CSS integrados -->
-    <style>
-        :root {
-            --primary: #d97706; /* Color fuego / naranja */
-            --primary-hover: #b45309;
-            --bg-dark: #111827; /* Fondo oscuro técnico */
-            --card-bg: #1f2937;
-            --text-light: #f3f4f6;
-            --text-muted: #9ca3af;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        /* Navegación */
-        header {
-            background-color: var(--card-bg);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--primary);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        nav a {
-            color: var(--text-light);
-            text-decoration: none;
-            margin-left: 1.5rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--primary);
-        }
-
-        /* Seccion Hero */
-        .hero {
-            text-align: center;
-            padding: 3rem 1rem 2rem 1rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Contenedor del Mapa */
-        .map-section {
-            max-width: 1200px;
-            margin: 0 auto 3rem auto;
-            padding: 0 1rem;
-        }
-
-        .map-header {
-            background-color: var(--card-bg);
-            padding: 1rem;
-            border-radius: 8px 8px 0 0;
-            border-left: 4px solid var(--primary);
-        }
-
-        .map-container {
-            width: 100%;
-            height: 600px;
-            background-color: #000;
-            border-radius: 0 0 8px 8px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .map-placeholder {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            color: var(--text-muted);
-            font-style: italic;
-            border: 2px dashed #374151;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Tarjetas de Datos */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto 3rem auto;
-            padding: 0 1rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            border-top: 3px solid var(--primary);
-        }
-
-        .card h3 {
-            font-size: 2rem;
-            color: var(--primary);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--card-bg);
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid #374151;
-        }
-    </style>
+    <title>Plataforma Geoespacial & Monitoreo de Incendios - Tarija</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Encabezado -->
-    <header>
+    <!-- Encabezado / Navbar -->
+    <header class="navbar">
         <div class="logo">
-            <span>🔥</span> Bomberos Forestales Tarija
+            <i class="fa-solid fa-earth-americas"></i>
+            <span>GeoTarija | Monitoreo Territorial</span>
         </div>
-        <nav>
-            <a href="#inicio">Inicio</a>
-            <a href="#mapa">Geoportal 2026</a>
-            <a href="#estadisticas">Datos</a>
+        <nav class="nav-links">
+            <a href="#visor"><i class="fa-solid fa-map"></i> Visor Mapa</a>
+            <a href="#descargas"><i class="fa-solid fa-download"></i> Capas & SHP</a>
+            <a href="#informes"><i class="fa-solid fa-file-pdf"></i> Informes PDF</a>
         </nav>
     </header>
 
-    <!-- Banner Principal -->
-    <section class="hero" id="inicio">
-        <h1>Monitoreo de Cicatrices de Incendios Forestales</h1>
-        <p>Plataforma técnica de cartografía satelital para el análisis de severidad y seguimiento de áreas quemadas en el departamento de Tarija.</p>
-    </section>
+    <!-- Contenedor Principal de la App -->
+    <div class="app-container">
 
-    <!-- Visor de Mapa -->
-    <section class="map-section" id="mapa">
-        <div class="map-header">
-            <h2>Visor Interactivo — Temporada 2026</h2>
-        </div>
-        <div class="map-container">
-            <!-- Aquí incrustaremos el mapa exportado de QGIS2Web -->
-            <!-- Ejemplo futuro: <iframe src="mapa_qgis/index.html"></iframe> -->
-            <div class="map-placeholder">
-                <p>📍 [Espacio reservado para el mapa de QGIS2Web]</p>
+        <!-- Panel Lateral / Sidebar -->
+        <aside class="sidebar">
+            <h3><i class="fa-solid fa-sliders"></i> Panel de Control</h3>
+            <p class="sidebar-desc">Selecciona la capa o servicio de monitoreo a visualizar:</p>
+
+            <div class="control-group">
+                <h4><i class="fa-solid fa-fire"></i> Capas de Incendios</h4>
+                <button class="btn-layer active" onclick="cargarCapa('cicatrices')">
+                    <i class="fa-solid fa-draw-polygon"></i> Cicatrices dNDVI (Tarija)
+                </button>
+                <button class="btn-layer" onclick="cargarCapa('firms')">
+                    <i class="fa-solid fa-satellite"></i> Focos de Calor (NASA FIRMS)
+                </button>
+                <button class="btn-layer" onclick="cargarCapa('copernicus')">
+                    <i class="fa-solid fa-globe"></i> Vista Copernicus Sentinel
+                </button>
             </div>
+
+            <hr>
+
+            <!-- Sección de Descargas Rápidas SHP -->
+            <div class="download-section">
+                <h4><i class="fa-solid fa-layer-group"></i> Descargar Datos (GIS)</h4>
+                <ul class="download-list">
+                    <li>
+                        <span>Cicatrices 2026 (.zip SHP)</span>
+                        <a href="data/cicatrices_2026.zip" download class="btn-download"><i class="fa-solid fa-download"></i></a>
+                    </li>
+                    <li>
+                        <span>Puntos de Recarga Agua (.geojson)</span>
+                        <a href="data/recarga_agua.geojson" download class="btn-download"><i class="fa-solid fa-download"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Área Principal del Visor / Mapa -->
+        <main class="map-container" id="visor">
+            <!-- Aquí incrustaremos el mapa exportado de QGIS o el iframe -->
+            <iframe id="visor-iframe" src="mapas/index.html" width="100%" height="100%" frameborder="0"></iframe>
+        </main>
+
+    </div>
+
+    <!-- Sección Inferior para Informes PDF -->
+    <section class="reports-section" id="informes">
+        <h2><i class="fa-solid fa-file-lines"></i> Informes y Reportes Técnicos (PDF)</h2>
+        <div class="cards-grid">
+            <div class="report-card">
+                <i class="fa-solid fa-file-pdf pdf-icon"></i>
+                <h3>Evaluación Post-Incendio Tarija</h3>
+                <p>Análisis de severidad, área quemada e impacto hidrológico en cuencas.</p>
+                <a href="docs/informe_incendios.pdf" target="_blank" class="btn-pdf">Ver PDF</a>
+            </div>
+            <!-- Puedes duplicar más tarjetas de informes aquí -->
         </div>
     </section>
 
-    <!-- Tarjetas Estadísticas -->
-    <section class="stats" id="estadisticas">
-        <div class="card">
-            <h3>2026</h3>
-            <p>Temporada Evaluada</p>
-        </div>
-        <div class="card">
-            <h3>Sentinel-2</h3>
-            <p>Sensor Satelital Base</p>
-        </div>
-        <div class="card">
-            <h3>dNDVI / NBR</h3>
-            <p>Índices de Severidad</p>
-        </div>
-    </section>
-
-    <!-- Pie de Página -->
-    <footer>
-        <p>&copy; 2026 Bomberos Forestales Tarija — Geoinformación y Respuesta Territorial</p>
-    </footer>
-
+    <script src="js/main.js"></script>
 </body>
 </html>
