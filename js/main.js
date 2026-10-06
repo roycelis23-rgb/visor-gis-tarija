@@ -2,10 +2,11 @@
 const mapFrame = document.getElementById('map-frame');
 const layerButtons = document.querySelectorAll('.btn-layer');
 
-// URLs del mapa base y portales externos
+// URLs integradas para Tarija (Coordenadas centradas approx: -21.53, -64.73)
 const mapUrls = {
     'dndvi': 'https://www.openstreetmap.org/export/embed.html?bbox=-65.50%2C-22.10%2C-63.50%2C-21.00&amp;layer=mapnik',
-    'firms': 'https://firms.modaps.eosdis.nasa.gov/map/#d:24hrs;td:24hrs;col:firms-shape;@-64.73,-21.53,9.5z',
+    'windy-viento': 'https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=9&overlay=wind&product=ecmwf&level=surface&lat=-21.53&lon=-64.73',
+    'windy-fuego': 'https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=default&zoom=9&overlay=fires&product=ecmwf&level=surface&lat=-21.53&lon=-64.73',
     'copernicus': 'https://browser.dataspace.copernicus.eu/?zoom=10&lat=-21.53&lng=-64.73'
 };
 
@@ -13,16 +14,18 @@ layerButtons.forEach(button => {
     button.addEventListener('click', () => {
         const layerType = button.getAttribute('data-layer');
         
-        if (layerType === 'dndvi') {
-            // Activar visualmente
+        // Capas que se cargan directo dentro del visor central
+        if (layerType === 'dndvi' || layerType === 'windy-viento' || layerType === 'windy-fuego') {
             layerButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             
-            // Cargar mapa de Tarija en el visor central
-            mapFrame.src = mapUrls['dndvi'];
-        } else if (layerType === 'firms' || layerType === 'copernicus') {
-            // Para evitar errores de bloqueo (X-Frame-Options), abrimos en pestaña nueva
-            window.open(mapUrls[layerType], '_blank');
+            if (mapFrame && mapUrls[layerType]) {
+                mapFrame.src = mapUrls[layerType];
+            }
+        } 
+        // Copernicus se abre en nueva pestaña para permitir login y evitar bloqueos de sesión
+        else if (layerType === 'copernicus') {
+            window.open(mapUrls['copernicus'], '_blank');
         }
     });
 });
